@@ -54,7 +54,7 @@ const TaskHr = styled.hr`
 export const Task = (props: any) => {
   return (
     <Draggable draggableId={props.task.id} index={props.index}>
-      {(provided: any, snapshot: any) => (
+      {(provided: any) => (
         <TaskContainer
           {...provided.draggableProps}
           {...provided.dragHandleProps}
