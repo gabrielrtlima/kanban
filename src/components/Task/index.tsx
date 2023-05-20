@@ -6,7 +6,7 @@ const TaskContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: ${props => (props.onDrag ? colors.green[50] : colors.gray[50])};
+  background-color: ${colors.gray[50]};
   border: 1px solid #e2e8f0;
   border-radius: 0.25rem;
   width: 90%;
@@ -59,7 +59,6 @@ export const Task = (props: any) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          onDrag={snapshot.isDragging}
         >
           {props.task.content}
           {props.task.description && (

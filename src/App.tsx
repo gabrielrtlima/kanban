@@ -5,6 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd"
 import { useState } from "react"
 import styled from "styled-components"
 import { colors } from "./colors.ts"
+import { Manage } from "./components/Manage/index.tsx"
 
 const Body = styled.div`
   display: flex;
@@ -12,7 +13,6 @@ const Body = styled.div`
   align-items: center;
   height: 100vh;
   background-color: ${colors.purple[300]};
-  gap: 1rem;
 
   h1 {
     font-size: 4rem;
@@ -24,7 +24,7 @@ const Body = styled.div`
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  height: 90%;
+  height: 82%;
   width: 100vw;
 `
 
@@ -63,7 +63,7 @@ function App() {
       setState(newState)
     }
   
-    if (destination.droppableId !== source.droppableId) {
+    if (destination.droppableId !== source.droppableId && destination.droppableId !== "trash") {
       const startColumn = state.columns[source.droppableId]
       const finishColumn = state.columns[destination.droppableId]
   
@@ -89,10 +89,29 @@ function App() {
           [newFinishColumn.id]: newFinishColumn
         }
       }
+      console.log(newState)
   
       setState(newState)
     }
 
+    if(destination.droppableId === "trash") {
+      console.log(result)
+      const startColumn = state.columns[source.droppableId]
+      const startTaskIds = Array.from(startColumn.taskIds)
+      startTaskIds.splice(source.index, 1)
+      const newStartColumn = {
+        ...startColumn,
+        taskIds: startTaskIds
+      }
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [newStartColumn.id]: newStartColumn
+        }
+      }
+      setState(newState)
+    }
 
   }
   
@@ -109,6 +128,7 @@ function App() {
               return <Column key={column.id} column={column} tasks={tasks} />
             })}
           </Container>
+          <Manage />
         </Body>
       </DragDropContext>
     </>
