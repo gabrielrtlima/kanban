@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { colors } from "../../colors.ts"
+import { colors } from "../../styles/colors.ts"
 
 export const Body = styled.div`
   display: flex;
