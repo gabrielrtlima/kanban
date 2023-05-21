@@ -5,7 +5,7 @@ interface Data {
       content: string,
       data: string,
       description: string,
-      autor: string
+      user: [string]
     }
   },
   columns: {
@@ -15,10 +15,10 @@ interface Data {
       taskIds: string[]
     }
   },
-  columnOrder: string[]
+  columnOrder: number[]
 }
 
-export const initialData: Data = {
+export const fakeData: any = {
   tasks: {
     'task-1': { id: 'task-1', content: 'Take out the garbage', data: '2020-01-01', description: 'descricao descricao descricao descricao', autor: 'Gabriel' },
     'task-2': { id: 'task-2', content: 'Watch my favorite show', data: '2020-01-01', description: 'descricao descricao descricao descricao', autor: 'Gabriel' },
@@ -52,3 +52,28 @@ export const initialData: Data = {
   columnOrder: ['column-1', 'column-2', 'column-3']
 }
 
+export const initialData: Data = {
+  tasks: {},
+  columns: {},
+  columnOrder: [1, 2, 3]
+}
+
+await fetch('http://localhost:3001/api/v1/task')
+  .then(response => response.json())
+  .then(data => {
+    data.result.forEach((task: any) => {
+      initialData.tasks[task.id] = { id: task.id, content: task.content, data: task.createdAt, description: task.description, user: task.user }
+    })
+  })
+
+await fetch('http://localhost:3001/api/v1/column')
+  .then(response => response.json())
+  .then(data => {
+    data.result.forEach((column: any) => {
+      console.log(column)
+      initialData.columns[column.id] = { id: column.id, title: column.title, taskIds: column.taskIds }
+    })
+  })
+
+console.log(initialData)
+console.log(fakeData)

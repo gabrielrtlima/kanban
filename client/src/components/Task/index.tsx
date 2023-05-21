@@ -68,7 +68,10 @@ export const Task = (props: any) => {
             </>
           )}
           <TaskFooter>
-           <TaskAutor>{props.task.autor}</TaskAutor>
+           {props.task.user && (
+            props.task.user.map((user: String) => (
+              <TaskAutor>{user}</TaskAutor>
+           )))}
            <TaskData>{props.task.data}</TaskData>
           </TaskFooter>
         </TaskContainer>

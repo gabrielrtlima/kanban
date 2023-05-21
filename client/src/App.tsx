@@ -61,6 +61,7 @@ function App() {
       }
   
       setState(newState)
+
     }
   
     if (destination.droppableId !== source.droppableId && destination.droppableId !== "trash") {
@@ -89,9 +90,17 @@ function App() {
           [newFinishColumn.id]: newFinishColumn
         }
       }
-      console.log(newState)
-  
       setState(newState)
+      console.log(result)
+      fetch(`http://localhost:3001/api/v1/column/${destination.droppableId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          taskIds: [result.draggableId]
+        }),
+      })
     }
 
     if(destination.droppableId === "trash") {
@@ -124,7 +133,7 @@ function App() {
             {state.columnOrder.map((columnId) => {
               const column = state.columns[columnId]
               const tasks = column.taskIds.map((taskId) => state.tasks[taskId])
-
+              
               return <Column key={column.id} column={column} tasks={tasks} />
             })}
           </Container>

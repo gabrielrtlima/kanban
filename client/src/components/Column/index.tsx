@@ -46,7 +46,7 @@ export const Column = (props: any) => {
   return (
     <ColumnBox>
       <ColumnTitle>{props.column.title}</ColumnTitle>
-      <Droppable droppableId={props.column.id}>
+      <Droppable droppableId={props.column.id.toString()}>
         {(provided: any) => (
           <CardBox>
             <CardContainer 
