@@ -1,34 +1,13 @@
 import { DropResult } from "react-beautiful-dnd"
-import { Column } from "./components/Column"
-import { initialData } from "./services/initialData"
+import { Column } from "../../components/Column/index.tsx"
+import { initialData } from "../../services/initialData.ts"
 import { DragDropContext } from "react-beautiful-dnd"
 import { useState } from "react"
-import styled from "styled-components"
-import { colors } from "./colors.ts"
-import { Manage } from "./components/Manage/index.tsx"
+import { Manage } from "../../components/Manage/index.tsx"
+import { Container, Body } from "./styles"
 
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  background-color: ${colors.purple[300]};
 
-  h1 {
-    font-size: 4rem;
-    color: ${colors.gray[200]};
-    font-family: 'Rampart One', cursive;
-  }
-`
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-around;
-  height: 82%;
-  width: 100vw;
-`
-
-function App() {
+function Home() {
   const [state, setState] = useState(initialData)
 
   const onDragEnd = (result: DropResult) => {
@@ -91,7 +70,6 @@ function App() {
         }
       }
       setState(newState)
-      console.log(result)
       fetch(`http://localhost:3001/api/v1/column/${destination.droppableId}`, {
         method: "PUT",
         headers: {
@@ -104,7 +82,6 @@ function App() {
     }
 
     if(destination.droppableId === "trash") {
-      console.log(result)
       const startColumn = state.columns[source.droppableId]
       const startTaskIds = Array.from(startColumn.taskIds)
       startTaskIds.splice(source.index, 1)
@@ -145,4 +122,4 @@ function App() {
 }
 
 
-export default App
+export default Home
