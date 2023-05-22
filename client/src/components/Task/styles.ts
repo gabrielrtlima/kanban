@@ -28,15 +28,19 @@ export const TaskFooter = styled.div`
   width: 100%;
 `
 
-export const TaskAutor = styled.span`
-  font-size: 0.75rem;
-  font-weight: 400;
+export const TaskAutor = styled.div`
+  display: flex;
   color: ${colors.purple[400]};
-  background-color: ${colors.gray[300]};
-  width: fit-content;
   border-radius: 4px;
   padding: 5px;
   margin-top: 5px;
+  gap: 5px;
+
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 999px;
+  }
 `
 
 export const TaskData = styled.span`

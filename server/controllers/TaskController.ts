@@ -2,32 +2,57 @@ import { Request, Response } from "express";
 import { Task as TaskModel } from "../models/Task";
 import { User as UserModel } from "../models/User";
 
+interface TaskDTO {
+  content: string;
+  description: string;
+  id: string;
+  user: [string]
+}
+
 interface Task {
   content: string;
   description: string;
   id: string;
-  user: [String]
+  user: User[]
+}
+
+interface User {
+  nome: string,
+  email: string,
+  photo: string
 }
 
 export const TaskController = {
   create: async (req: Request, res: Response) => {
     try {
-      const task: Task = {
+      const taskReq: TaskDTO = {
+        id: req.body.id,
         content: req.body.content,
         description: req.body.description,
-        id: req.body.id,
         user: req.body.user
       }
 
-      for(let i = 0; i < task.user.length; i++){
-        const user = await UserModel.findOne({ email: task.user[i] });
+
+      const userList: User[] = [];
+      for(let i = 0; i < taskReq.user.length; i++){
+        const user : User = await UserModel.findOne({ email: taskReq.user[i]});
         if(!user){
-          res.status(404).json({
+          return res.status(404).json({
             message: "User not found",
-            email: task.user[i]
+            email: taskReq.user[i]
           });
         }
+
+        userList.push(user)
       }
+
+      const task : Task = {
+        id: req.body.id,
+        content: req.body.content,
+        description: req.body.description,
+        user: userList
+      }
+
 
       const result = await TaskModel.create(task);
 
@@ -62,7 +87,13 @@ export const TaskController = {
 
   findByUser: async (req: Request, res: Response) => {
     try {
-      const result = await TaskModel.find({ user: req.query.email });
+      const user = await UserModel.find({ email: req.query.email})
+
+      if(!user) {
+        return res.status(500).send("User not found")
+      }
+
+      const result = await TaskModel.find({ user: {$in: user} });
 
       res.status(200).json({
         message: "Tasks found successfully by email",
@@ -71,8 +102,8 @@ export const TaskController = {
     } catch (error) {
       res.status(500).json({
         message: "Something went wrong",
-        error
       });
+      console.log(error)
     }
   }
 

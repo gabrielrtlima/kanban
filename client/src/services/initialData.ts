@@ -72,6 +72,7 @@ export const initialData = async (email: string, token: string) : Promise<Data> 
     }
   })
 
+
   const columnResponse = await fetch(`${import.meta.env.VITE_API_URL}/column`, {
     headers: { Authorization: `${token}`}
   })

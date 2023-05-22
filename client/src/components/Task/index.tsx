@@ -19,10 +19,12 @@ export const Task = (props: any) => {
           )}
           <TaskHr />
           <TaskFooter>
-           {props.task.user && (
-            props.task.user.map((user: String) => (
-              <TaskAutor>{"Gabriel"}</TaskAutor>
-           )))}
+          <TaskAutor>
+            {props.task.user && (
+              props.task.user.map((user: any) => (
+                <img src={user.photo} title={user.email}/>
+            )))}
+           </TaskAutor>
            <TaskData>{formattedDate(props.task.data)}</TaskData>
           </TaskFooter>
         </TaskContainer>

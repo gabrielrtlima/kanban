@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { UserSchema } from "./User";
 
 export const TaskSchema = new mongoose.Schema({
   id: {
@@ -20,7 +20,7 @@ export const TaskSchema = new mongoose.Schema({
     default: ""
   },
   user: {
-    type: [String],
+    type: [UserSchema],
     required: true,
     ref: "User"
   }
