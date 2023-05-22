@@ -35,6 +35,8 @@ export const TaskAutor = styled.div`
   padding: 5px;
   margin-top: 5px;
   gap: 5px;
+  background-color: ${colors.gray[300]};
+  max-width: 60%;
 
   img {
     width: 25px;

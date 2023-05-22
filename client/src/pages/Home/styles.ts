@@ -11,7 +11,9 @@ export const Body = styled.div`
   h1 {
     font-size: 4rem;
     color: ${colors.gray[200]};
-    font-family: 'Rampart One', cursive;
+    font-family: 'Montserrat', cursive;
+    font-weight: 900;
+    padding: 2rem;
   }
 `
 

@@ -121,7 +121,7 @@ function Home() {
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <Body>
-          <h1>Kanban!</h1>
+          <h1>KANBAN</h1>
           <Container>
             {state && state.columnOrder.map((columnId) => {
               const column = state.columns[columnId]
