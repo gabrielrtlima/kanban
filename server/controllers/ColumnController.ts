@@ -48,12 +48,10 @@ export const ColumnController = {
       if (oldColumn) {
         const index = oldColumn.taskIds.indexOf(taskId);
         oldColumn.taskIds.splice(index, 1);
-        console.log("chegou3")
         await ColumnModel.updateOne(
           { id: oldColumn.id },
           { $set: { taskIds: oldColumn.taskIds } }
         );
-        (console.log("chegou4"))
       }
   
       const newColumn: Column | null = await ColumnModel.findOne({ id: req.params.id });
