@@ -18,7 +18,7 @@ function Home() {
   const [user, setUser] = useState<any>(getUser(token!))
   
   useEffect(() => {
-    initialData(user.email)
+    initialData(user.email, token!)
       .then((data) => {
       setState(data)
     })
@@ -84,10 +84,11 @@ function Home() {
         }
       }
       setState(newState)
-      fetch(`${import.meta.env.VITE_API_URL}column/${destination.droppableId}`, {
+      fetch(`${import.meta.env.VITE_API_URL}/column/${destination.droppableId}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `${token}`
         },
         body: JSON.stringify({
           taskIds: [result.draggableId]

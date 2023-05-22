@@ -7,8 +7,7 @@ import { verifyToken } from "../middleware/auth";
 export const router = Router();
 
 router.use("/user", user);
-// router.use("/task", verifyToken, task)
-router.use("/task", task)
-// router.use("/column", verifyToken, column)
+router.use("/task", verifyToken, task)
+router.use("/column", verifyToken, column)
 router.use("/column", column)
 router.use("/auth", auth)

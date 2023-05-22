@@ -52,13 +52,15 @@ export const fakeData: any = {
   columnOrder: ['column-1', 'column-2', 'column-3']
 }
 
-export const initialData = async (email: string) : Promise<Data> => {
+export const initialData = async (email: string, token: string) : Promise<Data> => {
   const data : Data = {
     tasks: {},
     columns: {},
     columnOrder: [1, 2, 3]
   }
-  const taskResponse = await fetch(`${import.meta.env.VITE_API_URL}/task/user?email=${email}`)
+  const taskResponse = await fetch(`${import.meta.env.VITE_API_URL}/task/user?email=${email}`, {
+    headers: { Authorization: `${token}`}
+  })
   const taskData = await taskResponse.json()
   taskData.result.forEach((task: any) => {
     data.tasks[task.id] = {
@@ -70,7 +72,9 @@ export const initialData = async (email: string) : Promise<Data> => {
     }
   })
 
-  const columnResponse = await fetch(`${import.meta.env.VITE_API_URL}/column`)
+  const columnResponse = await fetch(`${import.meta.env.VITE_API_URL}/column`, {
+    headers: { Authorization: `${token}`}
+  })
   const columnData = await columnResponse.json()
   columnData.result.forEach((column: any) => {
     data.columns[column.id] = {

@@ -17,15 +17,22 @@ export const Task = (props: any) => {
               <TaskDescription>{props.task.description}</TaskDescription>
             </>
           )}
+          <TaskHr />
           <TaskFooter>
            {props.task.user && (
             props.task.user.map((user: String) => (
-              <TaskAutor>{user}</TaskAutor>
+              <TaskAutor>{"Gabriel"}</TaskAutor>
            )))}
-           <TaskData>{props.task.data}</TaskData>
+           <TaskData>{formattedDate(props.task.data)}</TaskData>
           </TaskFooter>
         </TaskContainer>
       )}
     </Draggable>
   )
+}
+
+
+ const formattedDate = (date: String) => {
+  const formatted = date.substring(0, 10)
+  return formatted
 }
