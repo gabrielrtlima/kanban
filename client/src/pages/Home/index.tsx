@@ -84,7 +84,7 @@ function Home() {
         }
       }
       setState(newState)
-      fetch(`http://localhost:3001/api/v1/column/${destination.droppableId}`, {
+      fetch(`${import.meta.env.VITE_API_URL}column/${destination.droppableId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -111,6 +111,7 @@ function Home() {
         }
       }
       setState(newState)
+      //TODO: FAZER A PARTE DE EXCLUIR TASK PARA A API
     }
 
   }
