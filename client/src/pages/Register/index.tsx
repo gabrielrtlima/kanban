@@ -27,7 +27,7 @@ export const Register = () => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await fetch('http://localhost:3001/api/v1/auth/register', {
+    await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
