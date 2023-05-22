@@ -89,7 +89,7 @@ export const AuthController = {
     try {
       const user = await UserModel.create({ name, email, photo })
       
-      await TaskModel.create({id: `${user.name}-1`,content: 'Olá, bem vindo!', description: 'Esta aplicação foi desenvolvida por Gabriel, acesse o meu blog e saiba mais: http://grtl.dev', user: user.email })
+      await TaskModel.create({id: `${user.name}-1`,content: 'Olá, bem vindo!', description: 'Esta aplicação foi desenvolvida por Gabriel, acesse o meu blog e saiba mais: http://grtl.dev', user: user })
 
       if(user) {
         const token = jwt.sign({ email }, process.env.TOKEN_KEY, { expiresIn: '1h' })
