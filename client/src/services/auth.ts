@@ -1,5 +1,4 @@
 import jwtDecode from 'jwt-decode';
-const JWT_SECRET = 'test';
 
 export const getUser = (token: string) => {
   try {

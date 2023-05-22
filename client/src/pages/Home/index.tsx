@@ -15,7 +15,7 @@ function Home() {
   
   const token : string | null = urlParams.get('token')
   
-  const [user, setUser] = useState<any>(getUser(token!))
+  const user : any = getUser(token!)
   
   useEffect(() => {
     initialData(user.email, token!)
