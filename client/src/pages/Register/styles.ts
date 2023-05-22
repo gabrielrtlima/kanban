@@ -8,13 +8,15 @@ export const Body = styled.div`
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: ${colors.purple[300]};
+  background-color: ${colors.gray[500]};
   gap: 10px;
 
   h1 {
-    color: ${colors.gray[300]};
+    color: ${colors.gray[100]};
     font-size: 32px;
     font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
    }
 `
 
@@ -25,7 +27,7 @@ export const Container = styled.div`
   justify-content: center;
   height: 40vh;
   width: 20vw;
-  background-color: ${colors.purple[100]};
+  background-color: ${colors.gray[200]};
   border-radius: 8px 8px 0 0;
   gap: 20px;
   
@@ -49,7 +51,7 @@ export const Container = styled.div`
     font-size: 16px;
     font-weight: 500;
     color: ${colors.gray[900]};
-    background-color: ${colors.gray[100]};
+    background-color: ${colors.gray[50]};
   }
 
   label {

@@ -14,6 +14,10 @@ export const Register = () => {
   const userProfile : UserProfile = JSON.parse(urlParams.get('userProfile')!)
   const [userToSave, setUserToSave] = useState<UserProfile>(userProfile)
 
+  const onClickCancel = () => {
+    window.location.href = "/"
+  }
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserToSave({
       ...userToSave,
@@ -43,7 +47,7 @@ export const Register = () => {
           <label htmlFor="email">Your email <span>you can't modify</span></label>
           <input type="text" disabled placeholder="Email" value={userProfile.email}/>
           <div className="div-button">
-            <button type="button"><AiFillCloseCircle size={48} color={"red"} /></button>
+            <button type="button" onClick={onClickCancel}><AiFillCloseCircle size={48} color={"red"} /></button>
             <button type="submit"><FcApproval size={48}/></button>
           </div>
         </form>
