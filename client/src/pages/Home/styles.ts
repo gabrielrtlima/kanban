@@ -6,7 +6,7 @@ export const Body = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: ${colors.purple[300]};
+  background-color: ${colors.gray[500]};
 
   h1 {
     font-size: 4rem;

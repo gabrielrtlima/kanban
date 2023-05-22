@@ -24,23 +24,25 @@ export const TaskDescription = styled.p`
 export const TaskFooter = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 `
 
 export const TaskAutor = styled.span`
   font-size: 0.75rem;
   font-weight: 400;
-  color: #000;
-  background-color: #a0eec7;
+  color: ${colors.purple[400]};
+  background-color: ${colors.gray[300]};
   width: fit-content;
   border-radius: 4px;
-  padding: 2px;
+  padding: 5px;
+  margin-top: 5px;
 `
 
 export const TaskData = styled.span`
   font-size: 0.75rem;
   font-weight: 400;
-  color: #31ec8f;
+  color: ${colors.purple[500]};
 `
 
 export const TaskHr = styled.hr`
