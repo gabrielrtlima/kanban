@@ -1,14 +1,28 @@
 import { DropResult } from "react-beautiful-dnd"
 import { Column } from "../../components/Column/index.tsx"
-import { initialData } from "../../services/initialData.ts"
+import { Data, initialData } from "../../services/initialData.ts"
 import { DragDropContext } from "react-beautiful-dnd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Manage } from "../../components/Manage/index.tsx"
 import { Container, Body } from "./styles"
+import { getUser } from "../../services/auth.ts"
 
 
 function Home() {
-  const [state, setState] = useState(initialData)
+  const [state, setState] = useState<Data | null>()
+
+  const urlParams = new URLSearchParams(window.location.search)
+  
+  const token : string | null = urlParams.get('token')
+  
+  const [user, setUser] = useState<any>(getUser(token!))
+  
+  useEffect(() => {
+    initialData(user.email)
+      .then((data) => {
+      setState(data)
+    })
+  }, [])
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
@@ -21,20 +35,20 @@ function Home() {
     ) return 
   
     if (destination.droppableId === source.droppableId) {
-      const column = state.columns[source.droppableId]
+      const column = state!.columns[source.droppableId]
       const newTaskIds = Array.from(column.taskIds)
       newTaskIds.splice(source.index, 1)
       newTaskIds.splice(destination.index, 0, draggableId)
   
-      const newColumn = {
+      const newColumn  = {
         ...column,
         taskIds: newTaskIds
       }
   
-      const newState = {
-        ...state,
+      const newState : Data = {
+        ...state!,
         columns: {
-          ...state.columns,
+          ...state!.columns,
           [newColumn.id]: newColumn
         }
       }
@@ -44,8 +58,8 @@ function Home() {
     }
   
     if (destination.droppableId !== source.droppableId && destination.droppableId !== "trash") {
-      const startColumn = state.columns[source.droppableId]
-      const finishColumn = state.columns[destination.droppableId]
+      const startColumn = state!.columns[source.droppableId]
+      const finishColumn = state!.columns[destination.droppableId]
   
       const startTaskIds = Array.from(startColumn.taskIds)
       startTaskIds.splice(source.index, 1)
@@ -61,10 +75,10 @@ function Home() {
         taskIds: finishTaskIds
       }
   
-      const newState = {
-        ...state,
+      const newState : Data = {
+        ...state!,
         columns: {
-          ...state.columns,
+          ...state!.columns,
           [newStartColumn.id]: newStartColumn,
           [newFinishColumn.id]: newFinishColumn
         }
@@ -82,17 +96,17 @@ function Home() {
     }
 
     if(destination.droppableId === "trash") {
-      const startColumn = state.columns[source.droppableId]
+      const startColumn = state!.columns[source.droppableId]
       const startTaskIds = Array.from(startColumn.taskIds)
       startTaskIds.splice(source.index, 1)
       const newStartColumn = {
         ...startColumn,
         taskIds: startTaskIds
       }
-      const newState = {
-        ...state,
+      const newState : Data = {
+        ...state!,
         columns: {
-          ...state.columns,
+          ...state!.columns,
           [newStartColumn.id]: newStartColumn
         }
       }
@@ -107,7 +121,7 @@ function Home() {
         <Body>
           <h1>Kanban!</h1>
           <Container>
-            {state.columnOrder.map((columnId) => {
+            {state && state.columnOrder.map((columnId) => {
               const column = state.columns[columnId]
               const tasks = column.taskIds.map((taskId) => state.tasks[taskId])
               

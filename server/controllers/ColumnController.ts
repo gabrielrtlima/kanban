@@ -44,9 +44,7 @@ export const ColumnController = {
 
     try {
       const taskId = req.body.taskIds[0];
-      console.log("chegou1")
       const oldColumn: Column | null = await ColumnModel.findOne({ taskIds: taskId });
-      console.log("chegou2")
       if (oldColumn) {
         const index = oldColumn.taskIds.indexOf(taskId);
         oldColumn.taskIds.splice(index, 1);

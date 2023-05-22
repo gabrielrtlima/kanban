@@ -11,14 +11,18 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.26",
+    "jsonwebtoken": "^9.0.0",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-modal": "^3.16.1",
+    "react-router-dom": "^6.11.2",
     "styled-components": "^6.0.0-rc.1"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/react": "^18.0.28",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.0.11",

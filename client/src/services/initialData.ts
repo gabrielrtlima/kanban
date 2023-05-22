@@ -1,4 +1,4 @@
-interface Data {
+export interface Data {
   tasks : {
     [key: string]: {
       id: string,
@@ -52,28 +52,41 @@ export const fakeData: any = {
   columnOrder: ['column-1', 'column-2', 'column-3']
 }
 
-export const initialData: Data = {
-  tasks: {},
-  columns: {},
-  columnOrder: [1, 2, 3]
-}
+// export const initialData: Data = {
+//   tasks: {},
+//   columns: {},
+//   columnOrder: [1, 2, 3]
+// }
 
-await fetch('http://localhost:3001/api/v1/task')
-  .then(response => response.json())
-  .then(data => {
-    data.result.forEach((task: any) => {
-      initialData.tasks[task.id] = { id: task.id, content: task.content, data: task.createdAt, description: task.description, user: task.user }
-    })
+export const initialData = async (email: string) : Promise<Data> => {
+  const data : Data = {
+    tasks: {},
+    columns: {},
+    columnOrder: [1, 2, 3]
+  }
+  const taskResponse = await fetch(`http://localhost:3001/api/v1/task/user?email=${email}`)
+  const taskData = await taskResponse.json()
+  taskData.result.forEach((task: any) => {
+    data.tasks[task.id] = {
+      id: task.id,
+      content: task.content,
+      data: task.createdAt,
+      description: task.description,
+      user: task.user
+    }
   })
 
-await fetch('http://localhost:3001/api/v1/column')
-  .then(response => response.json())
-  .then(data => {
-    data.result.forEach((column: any) => {
-      console.log(column)
-      initialData.columns[column.id] = { id: column.id, title: column.title, taskIds: column.taskIds }
-    })
+  const columnResponse = await fetch(`http://localhost:3001/api/v1/column`)
+  const columnData = await columnResponse.json()
+  columnData.result.forEach((column: any) => {
+    data.columns[column.id] = {
+      id: column.id,
+      title: column.title,
+      taskIds: column.taskIds.filter((task: any) => data.tasks[task])
+    }
   })
 
-console.log(initialData)
-console.log(fakeData)
+    
+  return data
+} 
+
