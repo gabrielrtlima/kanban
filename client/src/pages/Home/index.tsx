@@ -13,7 +13,7 @@ function Home() {
 
   const urlParams = new URLSearchParams(window.location.search)
   
-  const token : string | null = urlParams.get('token')
+  const token : string | null =  urlParams.get('token') || localStorage.getItem('token') 
   
   const user : any = getUser(token!)
   
@@ -112,7 +112,12 @@ function Home() {
         }
       }
       setState(newState)
-      //TODO: FAZER A PARTE DE EXCLUIR TASK PARA A API
+      fetch(`${import.meta.env.VITE_API_URL}/task/${draggableId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `${token}`
+        }
+      })
     }
 
   }

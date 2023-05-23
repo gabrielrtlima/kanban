@@ -30,5 +30,20 @@ export const UserController = {
       });
     }
     
+  },
+
+  findByEmail: async (req: Request, res: Response) => {
+    try {
+      const result = await UserModel.findOne({ email: req.query.email });
+      res.status(200).json({
+        message: "User found successfully",
+        result
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Something went wrong",
+        error
+      });
+    }
   }
 }

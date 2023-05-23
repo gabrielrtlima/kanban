@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { Task as TaskModel } from "../models/Task";
 import { User as UserModel } from "../models/User";
+import { Column as ColumnModel } from "../models/Column";
 
 interface TaskDTO {
   content: string;
   description: string;
   id: string;
-  user: [string]
+  users: [string];
+  status: string;
 }
 
 interface Task {
@@ -22,24 +24,30 @@ interface User {
   photo: string
 }
 
+interface Column {
+  id: string,
+  title: string,
+  taskIds: [string]
+}
+
 export const TaskController = {
   create: async (req: Request, res: Response) => {
     try {
       const taskReq: TaskDTO = {
-        id: req.body.id,
+        id: autoGenerateId(),
         content: req.body.content,
         description: req.body.description,
-        user: req.body.user
+        users: req.body.users,
+        status: req.body.status
       }
 
-
       const userList: User[] = [];
-      for(let i = 0; i < taskReq.user.length; i++){
-        const user : User = await UserModel.findOne({ email: taskReq.user[i]});
+      for(let i = 0; i < taskReq.users.length; i++){
+        const user : User = await UserModel.findOne({ email: taskReq.users[i]});
         if(!user){
           return res.status(404).json({
             message: "User not found",
-            email: taskReq.user[i]
+            email: taskReq.users[i]
           });
         }
 
@@ -47,21 +55,28 @@ export const TaskController = {
       }
 
       const task : Task = {
-        id: req.body.id,
-        content: req.body.content,
-        description: req.body.description,
+        id: taskReq.id,
+        content: taskReq.content,
+        description: taskReq.description,
         user: userList
       }
 
-
       const result = await TaskModel.create(task);
 
-      res.status(201).json({
+      const column : Column | null = await ColumnModel.findOne({ id: taskReq.status })
+      column!.taskIds.push(task.id);
+      const columnUpdate = await ColumnModel.updateOne( 
+        { id: parseInt(taskReq.status) },
+        { $set: { taskIds: column!.taskIds }}
+      )
+      
+
+      return res.status(201).json({
         message: "Task created successfully",
-        result
+        result,
+        columnUpdate
       });
     } catch (error) {
-      console.log(req.body)
       res.status(500).json({
         message: "Something went wrong",
         error
@@ -105,6 +120,37 @@ export const TaskController = {
       });
       console.log(error)
     }
+  },
+
+  delete: async (req: Request, res: Response) => {
+    try {
+      const column : Column | null = await ColumnModel.findOne({ taskIds: req.params.id });
+      
+      if (column) {
+        const index = column.taskIds.indexOf(req.params.id);
+        column.taskIds.splice(index, 1);
+        await ColumnModel.updateOne(
+          { id: parseInt(column.id) },
+          { $set: { taskIds: column.taskIds } }
+        );
+      }
+
+      const result = await TaskModel.deleteOne({ id: req.params.id });
+
+      res.status(200).json({
+        message: "Task deleted successfully",
+        result
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Something went wrong",
+        error
+      });
+    }
   }
 
 }
+
+const autoGenerateId: () => string = () => {
+  return Math.random().toString(36).substr(2, 9);
+ }

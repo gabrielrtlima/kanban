@@ -12,22 +12,24 @@ export const CreateContainer = styled.div`
 
   h1 {
     padding: 5px;
-    font-size: 2rem;
-    color: ${colors.purple[200]};
+    font-size: 32px;
+    color: ${colors.gray[900]};
     text-align: center;
+    font-weight: 600;
   }
 `
 
-export const CreateForm = styled.form`
+export const CreateForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 50%;
+  height: 60%;
   background-color: ${colors.gray[50]};
   border: 1px solid ${colors.green[50]};
   border-radius: 5px;
   padding: 20px;
   gap: 1rem;
+  overflow-y: auto;
 
   label {
     padding: 5px;
@@ -52,7 +54,7 @@ export const CreateForm = styled.form`
     border: 1px solid ${colors.green[50]};
     border-radius: 0.25rem;
     margin-bottom: 5px;
-    height: 20%;
+    min-height: 10%;
     resize: none
   } 
 
@@ -71,10 +73,43 @@ export const CreateForm = styled.form`
     cursor: pointer;
   }
 
-  div {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+`
+
+export const ButtonDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+`
+
+export const EmailForm = styled.div`
+  display: flex;
+  width: fit-content;
+  gap: 5px;
+  font-family: 'Roboto';
+  text-transform: capitalize;
+`
+
+export const EmailInput = styled.div`
+  display: flex;
+  justify-content: flex-start !important;
+  align-items: self-start;
+  background-color: ${colors.gray[500]};
+  border-radius: 999px;
+  padding: 1px;
+  font-size: 12px;
+  font-weight: 400;
+
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+  }
+
+  button {
+    background-color: transparent;
+    padding: 0 3px 0 0;
   }
 `
+

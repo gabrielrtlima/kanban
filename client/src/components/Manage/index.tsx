@@ -40,7 +40,7 @@ export const Manage = () => {
           onRequestClose={closeModal}
           overlayClassName={"overlay"}
         >
-          <CreateTask />
+          <CreateTask close={closeModal}/>
         </Modal>
     </>
   )
